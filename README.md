@@ -2,6 +2,9 @@ Mongoose Duplicate Errors
 =========================
 
 Custom error messages for the mongodb duplicate error
+[![Build Status](https://travis-ci.org/enhancv/mongoose-duplicate-error.svg?branch=master)](https://travis-ci.org/enhancv/mongoose-duplicate-error)
+[![Code Climate](https://codeclimate.com/github/enhancv/mongoose-duplicate-error/badges/gpa.svg)](https://codeclimate.com/github/enhancv/mongoose-duplicate-error)
+[![Test Coverage](https://codeclimate.com/github/enhancv/mongoose-duplicate-error/badges/coverage.svg)](https://codeclimate.com/github/enhancv/mongoose-duplicate-error/coverage)
 
 Installation
 ------------
