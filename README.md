@@ -72,12 +72,4 @@ CustomerSchema.plugin(mongooseDuplicateError, {
         email_1_deleted_1: { path: 'email', message: 'The {PATH} must be unique ({VALUE})' },
     },
 }});
-
-// Or you can use the shorthand
-
-CustomerSchema.plugin(mongooseDuplicateError, {
-    indexes: {
-        email_1_deleted_1: ['email', 'The {PATH} must be unique ({VALUE})'],
-    },
-}});
 ```

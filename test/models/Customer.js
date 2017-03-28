@@ -23,7 +23,7 @@ const CustomerSchema = new Schema({
 CustomerSchema.index({ email: 1, deleted: 1 }, { unique: true });
 
 CustomerSchema.plugin(mongooseDuplicateError, { indexes: {
-    username_1: ['username', '{PATH} is not correct value {VALUE}'],
+    username_1: { path: 'username', message: '{PATH} is not correct value {VALUE}' },
     email_1_deleted_1: { path: 'email', message: 'Duplicate email' },
 }});
 
