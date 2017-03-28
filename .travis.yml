@@ -1,5 +1,8 @@
 language: node_js
 services: mongodb
+addons:
+    code_climate:
+        repo_token: d5d3069f855a448b8af6eaa2bec9c39ed3f08d8af28c28b540c82f61c16e42ca
 node_js:
 - 6
 - 5
@@ -9,3 +12,18 @@ cache:
 script:
 - yarn lint
 - yarn run coverage
+after_success:
+- npm install -g codeclimate-test-reporter
+- codeclimate-test-reporter < coverage/lcov.info
+deploy:
+  provider: npm
+  email: ikerin@gmail.com
+  api_key:
+    secure: m9hGTJPg4s3YqfprHgyLK1zmNbqN6cMH2P56QRItJEjrIXmuCKUHsCbPHBL8laxPt50XNA3My1AkQSCsfGD7QPge6QC3HWVa/QRycl2Ef3+w0WKLTmou/bMxRivGQCWxd4Js+2VyglZSxBN+P6JB52OQRuF1hAFIvw/N5mY9SmtjeV/LsauqwhU316b/vrsi9LyW+1lmpG46YvapoM3P7TGBd25Ag29wziY0Vd7cOjYxjij32ncrnmp2BP7b08CAJCbStJgFckasmDBVyWmTOMJciygGDJrcfc6yY820PntDwYDIVARlMDVHR0XgFek9BWAZqX/hxH79fVmEayoHI1A72E9Gr5gUp4ycuc9icv+QYTV82THmSFvB1zA2n6agSSX3a8GMnS3pyMOyK8JxGtxtpR1NxZNgsD17FlcAeO5OrBuBAOlQDRacNQ5T/QWPVy8ST9/8EbQCj9/oh/rAOVb+25uFldmh/Nzw9sfvH4R+dkijGi/KZK2etF6/Bhi0HmjR9aOIrqPT12TaTStibhsMfqiJu6DhfEsD/8B/Ztpg+UmnkQF3FfKtaiQiBefrtS1RHJ0WMYs2mqgmv7dOnaPmVyhYqIABpjxkm3IQe0bjlh42jtYREChEjwaIe2J08NlBES4LWqLl3crI3kIen7SZ0D7LEA7/rjGkQ+WUU48=
+  on:
+    tags: true
+    repo: enhancv/mongoose-duplicate-error
+notifications:
+  email: false
+  slack:
+    secure: cGa6F8JOiLLqERO4Hb5cr30K9wNUtZeijOioxedw6fmsDp7QoXzRF/aEcytAYAdmtB+vWtp4JhZ2UzM+zm6pPQG46DHpep9Df/s9i2Ua+IIBcfKptoxLVlVHgeUlrH/qNc7L0rQxp/bnVE83lqZCmIVSlyXLf/fUvPTwyPskSH1gfBSbqDXpSLwbN3Z5WHdpX+i/UmRtAI6NNWvpKLfAmk9IavtCdAKKM2upPB+alj10t22Zmoc4lDjieuGhY6zF7cuCr8d8VeZf5Mbye/48MiLFUl2DOa62/HneCMItTqLNHj3Jq224tAC3F70bP0Dj9xJTanJivyr4y6HuxChQCxSdKqfne56FqEL1v15K0vQk/mDMOrvm684xRYRipFizpfgjuf5IMRaMuYK0lctoKvOkEzuCSh/3gqaYMbFXEFDgR7O6fBMCp9V8UZOQ2RKBtCZeZJ9MJdr8FUzD7HxoAw3aRBBxLZaSQzjxXOOmIPPEdL6NUItbUlZKcY4As5ZxolZLb8wqTaPF+L+g7Uv0XoonfS1bBLvWnN7bt+MXXL/odPneTfdB20GcL2NPMIT6iN/mXapmbxMPAb2C8pw5VQWzymimC/6bh9GMbj3rhK/oqFyvSStwzMurslbplvD/wkMCc8Q6dZcQTO4UPXXj4SMF48V/jFiGGwicuMJWa1s=

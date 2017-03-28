@@ -1,7 +1,8 @@
+/* eslint object-shorthand: "off" */
+
 const mongoose = require('mongoose');
 
 function MongooseDuplicateError(schema, options) {
-
     function mongodbErrorHandler(err, doc, next) {
         if (err.name !== 'MongoError' || err.code !== 11000) {
             return next(err);
@@ -9,8 +10,8 @@ function MongooseDuplicateError(schema, options) {
 
         const template = /([^.]*)\.([^ ]*) index: ([^ ]*) dup key: {( : ([^:},]*),? )/;
         const parts = err.message.match(template);
-        const indexName = parts && parts[3];
-        const value = parts && parts[5] || 'value';
+        const indexName = (parts && parts[3]) || '';
+        const value = (parts && parts[5]) || 'value';
 
         let path = indexName.substr(0, indexName.indexOf('_'));
         let message = '{PATH} must be unique';
