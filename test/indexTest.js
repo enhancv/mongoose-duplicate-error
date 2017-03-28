@@ -7,6 +7,18 @@ const Customer = require('./models/Customer');
 const plugin = require('../src');
 
 describe('mongoose-duplicate-error', database([Customer], function () {
+
+    it(`Should parse error`, function () {
+        const errorMongo2 = 'E11000 duplicate key error index: mongoose-duplicate-error.customers.$username_1  dup key: { : "test" }';
+        assert.equal(errorMongo2.match(plugin.PARSE_MONGO_2)[1], 'username_1');
+        assert.equal(errorMongo2.match(plugin.PARSE_MONGO_2)[2], '"test"');
+
+        const errorMongo3 = 'E11000 duplicate key error collection: mongoose-duplicate-error.customers index: username_1 dup key: { : "test" }';
+        assert.equal(errorMongo3.match(plugin.PARSE_MONGO_3)[1], 'username_1');
+        assert.equal(errorMongo3.match(plugin.PARSE_MONGO_3)[2], '"test"');
+    });
+
+
     it('Should generate a validation error on simple unique constraint', function () {
         const customer1 = new Customer({ email: 'test1@example.com', username: 'test', other: 1 });
         const customer2 = new Customer({ email: 'test2@example.com', username: 'test', other: 2 });
@@ -14,7 +26,6 @@ describe('mongoose-duplicate-error', database([Customer], function () {
         return customer1.save()
             .then(() => customer2.save())
             .catch(error => {
-                console.log(error);
                 assert(error instanceof mongoose.Error.ValidationError, error.toString());
                 assert(error.errors.username instanceof mongoose.Error.ValidatorError, error.toString());
                 assert.equal(error.message, 'Customer validation failed');

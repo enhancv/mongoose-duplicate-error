@@ -2,16 +2,18 @@
 
 const mongoose = require('mongoose');
 
+const PARSE_MONGO_2 = /index: [^.]*\.[^.]*\.\$([^ $]*)  dup key: { : ([^:},]*),? /;
+const PARSE_MONGO_3 = /index: ([^ $]*) dup key: { : ([^:},]*),? /;
+
 function MongooseDuplicateError(schema, options) {
     function mongodbErrorHandler(err, doc, next) {
         if (err.name !== 'MongoError' || err.code !== 11000) {
             return next(err);
         }
 
-        const template = /([^.]*)\.\$?([^ $]*) index: ([^ ]*) dup key: {( : ([^:},]*),? )/;
-        const parts = err.message.match(template);
-        const indexName = (parts && parts[3]) || '';
-        const value = (parts && parts[5]) || 'value';
+        const parts = err.message.match(PARSE_MONGO_2) || err.message.match(PARSE_MONGO_3);
+        const indexName = (parts && parts[1]) || '';
+        const value = (parts && parts[2]) || '';
 
         let path = indexName.substr(0, indexName.indexOf('_'));
         let message = '{PATH} must be unique';
@@ -41,5 +43,8 @@ function MongooseDuplicateError(schema, options) {
     schema.post('findOneAndUpdate', mongodbErrorHandler);
     schema.post('insertMany', mongodbErrorHandler);
 }
+
+MongooseDuplicateError.PARSE_MONGO_2 = PARSE_MONGO_2;
+MongooseDuplicateError.PARSE_MONGO_3 = PARSE_MONGO_3;
 
 module.exports = MongooseDuplicateError;
