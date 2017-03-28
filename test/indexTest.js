@@ -14,8 +14,9 @@ describe('mongoose-duplicate-error', database([Customer], function () {
         return customer1.save()
             .then(() => customer2.save())
             .catch(error => {
-                assert(error instanceof mongoose.Error.ValidationError, error.toString() + error.reason);
-                assert(error.errors.username instanceof mongoose.Error.ValidatorError, error.toString() + error.reason);
+                console.log(error);
+                assert(error instanceof mongoose.Error.ValidationError, error.toString());
+                assert(error.errors.username instanceof mongoose.Error.ValidatorError, error.toString());
                 assert.equal(error.message, 'Customer validation failed');
                 assert.equal(error.errors.username.message, 'username is not correct value "test"');
                 assert.equal(error.errors.username.kind, 'duplicate');
