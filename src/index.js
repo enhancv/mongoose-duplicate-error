@@ -8,7 +8,7 @@ function MongooseDuplicateError(schema, options) {
             return next(err);
         }
 
-        const template = /([^.]*)\.([^ ]*) index: ([^ ]*) dup key: {( : ([^:},]*),? )/;
+        const template = /([^.]*)\.\$?([^ $]*) index: ([^ ]*) dup key: {( : ([^:},]*),? )/;
         const parts = err.message.match(template);
         const indexName = (parts && parts[3]) || '';
         const value = (parts && parts[5]) || 'value';
